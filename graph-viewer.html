@@ -21,6 +21,9 @@
             pointer-events: none;
             z-index: 10;
         }
+        .node-text a {
+  pointer-events: auto;
+}
     </style>
 </head>
 <div id="tooltip" style="
@@ -174,7 +177,7 @@
             // Draw root outline
 
             let colorHex = lerpColorWhiteToOrange(0);
-            const rootCircle = draw_outline_circle(20, { x: 0, y: 0 }, label = firstNode[label_keyname], colorHex = colorHex)
+            const rootCircle = draw_outline_circle(20, { x: 0, y: 0 }, label = firstNode[label_keyname], colorHex = colorHex, link = startId)
             nodeObjects.push(rootCircle)
             scene.add(rootCircle);
             while (!queue.isEmpty()) {
@@ -193,7 +196,7 @@
                         });
                         let t = factor * node.level / maxNodes;
                         let colorHex = lerpColorWhiteToOrange(t);
-                        const circle = draw_outline_circle(node.radius, node.position, label = node[label_keyname], colorHex = colorHex)
+                        const circle = draw_outline_circle(node.radius, node.position, label = node[label_keyname], colorHex = colorHex, link = node.id)
                         nodeObjects.push(circle)
                         labelObjects.push(circle.children[0])
                         scene.add(circle); //node.label, node.radius for font scaling?

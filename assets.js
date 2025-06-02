@@ -1,4 +1,4 @@
-function draw_outline_circle(radius, position, label = 'egg', colorHex = 0xFFFFFF) {
+function draw_outline_circle(radius, position, label = 'egg', colorHex = 0xFFFFFF, link = '') {
     // Outlined circle (no fill) using EllipseCurve
     const curve = new THREE.EllipseCurve(
         position.x, position.y,            // ax, aY: center
@@ -15,16 +15,23 @@ function draw_outline_circle(radius, position, label = 'egg', colorHex = 0xFFFFF
 
     //label portion
     const div = document.createElement('div');
-    div.textContent = label;
-    div.className = 'node-text';
-    div.style.color = 'white'
-    div.style.backgroundColor = 'black'
-    div.dataset.baseSize = 10
-    
+
+    const url = document.createElement('a')
+    url.href = link
+    url.textContent = label;
+    url.className = 'node-text';
+    url.style.color = 'white'
+    url.style.pointerEvents = 'auto'
+    url.style.backgroundColor = 'black'
+    url.target = '_blank'; // Open in new tab
+    url.rel = 'noopener noreferrer'; // Security best practice
+    url.dataset.baseSize = 10
+    div.appendChild(url)
+
     const html_label = new THREE.CSS2DObject(div);
     html_label.position.set(position.x, position.y + radius, 0);
     outlineCircle.add(html_label)
-    
+
     return outlineCircle
 }
 
