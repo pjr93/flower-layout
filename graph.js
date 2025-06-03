@@ -9,6 +9,11 @@ function defaultDict(factory) {
     });
 }
 
+function getWord() {
+    const DICTIONARY = ["apple", "banana", "cherry", "date", "elderberry", "cucumber","blueberry","strawberry","mango","pineapple","grape"];
+    return DICTIONARY[Math.floor(Math.random() * DICTIONARY.length)];
+}
+
 class Queue {
     constructor() {
         this.items = {};
@@ -135,7 +140,3 @@ class Network {
 }
 
 
-function getWord() {
-    const DICTIONARY = ["apple", "banana", "cherry", "date", "elderberry", "cucumber","blueberry","strawberry","mango","pineapple","grape"];
-    return DICTIONARY[Math.floor(Math.random() * DICTIONARY.length)];
-}
