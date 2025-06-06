@@ -5,7 +5,7 @@ function main() {
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
+    //=============== initialization stuff ===============
     // Label setup
     const labelRenderer = new THREE.CSS2DRenderer();
     labelRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -40,10 +40,10 @@ function main() {
 
     let labelObjects = [];
     let nodeObjects = [];
-
+    //=============== functions ===============
     //the parent radius should actually be the radius of the currentNodeId
 
-    const calculateLayout = (currentNodeId, parentRadius, parentPosition = { x: 0, y: 0 }) => {
+    const calculateLayout = (currentNodeId, parentRadius, parentPosition = { x: 0, y: 0 }) => { // needs parent and child node
         const buffer = 1;
         const children = net.edgeHash[currentNodeId];
 
@@ -112,7 +112,7 @@ function main() {
     };
 
     // --- BFS wrapper for drawing the layout ---
-    const draw_layout_bfs = (label_keyname = 'name') => {
+    const draw_layout_bfs = (label_keyname = 'name') => { //could be made to require nodes for redraw. This suggests a global set of key mappings could be set ahead of time 
         const visited = new Set();
         const queue = new Queue();
         const labels = []
@@ -165,7 +165,7 @@ function main() {
 
     // visual radius to get the proportions required for zoom senitivity
 
-    function getWindowRadius(r, position, camera) {
+    function getWindowRadius(r, position, camera) { //uses node radius and the camera of course. Perhaps sending the camera is redundant
         const center = new THREE.Vector3(position.x, position.y, 0)
         // Project center to screen
         const centerScreen = center.clone().project(camera);
@@ -198,7 +198,7 @@ function main() {
     }
 
     // label updater
-    function updateLabelVisibility(labels, camera) {
+    function updateLabelVisibility(labels, camera) { //straightforward
         labels.forEach(({ labelObject, nodePosition, nodeRadius }) => {
             const pixelRadius = getWindowRadius(nodeRadius, nodePosition, camera)
             labelObject.visible = pixelRadius > window.innerHeight / 10; //the divisor has to be scaled somehow exponentially I think, perhaps by the rescale function I made earlier? Not sure what the best method is but this method in principle is alright
@@ -206,7 +206,7 @@ function main() {
     }
 
     // Render loop
-    labelObjects = draw_layout_bfs(label_keyname = 'label')
+    labelObjects = draw_layout_bfs(label_keyname = 'label') //having to pass this label objects is awkward
 
     function animate() {
         requestAnimationFrame(animate);
