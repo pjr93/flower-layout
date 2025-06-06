@@ -5,7 +5,7 @@ from time import sleep
 import json
 import pathlib as pl
 
-# first page, setting up branches
+# Selenium specific function
 def find_links(start_link, exclude):
     driver.get(start_link)
     elements = driver.find_elements(By.TAG_NAME, 'a')
@@ -16,13 +16,9 @@ def find_links(start_link, exclude):
         if name not in exclude and link is not None and ('objectgroup_id' in link or 'guide_id' in link):
             data.append({'link': link, 'name': name})
         
-    for item in data:
-        print(item) #just realized this will print everything, not just what will be scraped
-        
     return data
-    
-# now for bfs, I can apply this function
 
+# Network object for convenience
 class Net:
     def __init__(self):
         self._graph = {"nodes":[],"edges":[]}
@@ -47,7 +43,7 @@ class Net:
         
 
 from collections import deque
-
+# bfs to apply the scraping and saving
 def bfs(start_link, network: Net, exclude, graph_path_name, progress_path_name ,  progress = None, crawl_delay = 5, save_count = 50):
     visited = set() if not progress else set(progress["visited"])
     
@@ -70,6 +66,7 @@ def bfs(start_link, network: Net, exclude, graph_path_name, progress_path_name ,
             link = data['link']
             
             if link not in visited:
+                print(f"new link: {link}")
                 visited.add(link)
                 queue.append(link)
                 network.add_edge(current_link,link)
